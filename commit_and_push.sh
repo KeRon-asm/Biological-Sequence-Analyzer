@@ -13,7 +13,7 @@ if [ ! -d ".git"]; then
 	REPO_NAME=$(basename $PWD)
 
 	git init
-	gh repo create "$Protein-Sequence-Analyzer" --public --source=. --remote=origin
+	gh repo create "$Biological-Sequence-Analyzer" --public --source=. --remote=origin
 	echo "Repo created successfully"
 fi
 
