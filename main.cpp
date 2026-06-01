@@ -1,5 +1,6 @@
 #include <iostream>
 #include "fasta.h"
+#include <string>
 #include <fstream>
 using namespace std;
 
@@ -19,8 +20,6 @@ int main(){
 	//Parse File
 	vector<FastaRecord> records = parseFasta("EXAMPLE_1.fasta");
 	
-	// Construct codon table
-	buildCodonTable();
 
 	// Print parsed records:
 	for (const auto& rec : records) {

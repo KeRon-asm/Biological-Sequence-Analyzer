@@ -31,88 +31,31 @@ vector<FastaRecord> parseFasta(const string& filename) {
         records.push_back(current);
     return records;
 }
+string transcribeDNA(const string& dna) {
+	// takes a string and swaps out the T for a U
+	string rna = dna;
+	for (char& c : rna) {
+		// strings are mutable in C++
+		if (c == 'T') c = 'U';
+	}
+	return rna;
+}
 
-unordered_map<string, string> buildCodonTable() {
-    return {
-        {"AUU", "ILE (I)"},
-		{"AUC", "ILE (I)"},
-		{"AUA", "ILE (I)"},
-		{"AUG", "MET (M)"},
-		
-		{"ACU", "THR (T)"},
-		{"ACC", "THR (T)"},
-		{"ACA", "THR (T)"},
-		{"ACG", "THR (T)"},
-		
-		{"AAU", "ASN (N)"},
-		{"AAC", "ASN (N)"},
-		{"AAA", "LYS (K)"},
-		{"AAG", "LYS (K)"},
-		
-		{"AGU", "SER (S)"},
-		{"AGC", "SER (S)"},
-		{"AGA", "ARG (R)"},
-		{"AGG", "ARG (R)"},
-
-		{"GUU", "VAL (V)"},
-		{"GUC", "VAL (V)"},
-		{"GUA", "VAL (V)"},
-		{"GUG", "VAL (V)"},
-		
-		{"GCU", "ALA (A)"},
-		{"GCC", "ALA (A)"},
-		{"GCA", "ALA (A)"},
-		{"GCG", "ALA (A)"},
-		
-		{"GAU", "ASP (D)"},
-		{"GAC", "ASP (D)"},
-		{"GAA", "GLU (E)"},
-		{"GAG", "GLU (E)"},
-		
-		{"GGU", "GLY (G)"},
-		{"GGC", "GLY (G)"},
-		{"GGA", "GLY (G)"},
-		{"GGG", "GLY (G)"},
-
-		{"UUU", "PHE (F)"},
-		{"UUC", "PHE (F)"},
-		{"UUA", "LEU (L)"},
-		{"UUG", "LEU (L)"},
+string translateRNA(const string& rna){
+	//take the rna string
+	string composition;
 	
-		{"UCU", "SER (S)"},
-		{"UCC", "SER (S)"},
-		{"UCA", "SER (S)"},
-		{"UCG", "SER (S)"},
-
-		{"UAU", "TYR (Y)"},
-		{"UAC", "TYR (Y)"},
-		{"UAA", "STOP"},
-		{"UAG", "STOP"},
-		
-		{"UGU", "CYS (C)"},
-		{"UGC", "CYS (C)"},
-		{"UGA", "STOP"},
-		{"UGG", "TRP (W)"},
-		
-		{"CUU", "LEU (L)"},
-		{"CUC", "LEU (L)"},
-		{"CUA", "LEU (L)"},
-		{"CUG", "LEU (L)"},
-
-		{"CCU", "PRO (P)"},
-		{"CCC", "PRO (P)"},
-		{"CCA", "PRO (P)"},
-		{"CCG", "PRO (P)"},
-
-		{"CAU", "HIS (H)"},
-		{"CAC", "HIS (H)"},
-		{"CAA", "GLN (Q)"},
-		{"CAG", "GLN (Q)"},
-
-		{"CGU", "ARG (R)"},
-		{"CGC", "ARG (R)"},
-		{"CGA", "ARG (R)"},
-		{"CGG", "ARG (R)"},
-
-    };
+	for (int i = 0; i+3 <= rna.size(); i+=3){
+	string current_acid = rna.substr(i,3); 
+	string codon;
+	if (CODONTABLE.count(current_acid)) {
+		codon =  CODONTABLE.at(current_acid);
+	} else {
+		codon = "UNKNOWN";
+		cout << "Unknown Codon detected." << endl;
+	}
+	if (codon == "STOP") break;
+	composition += codon;
+	}
+	return composition;
 }
