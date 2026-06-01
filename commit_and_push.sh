@@ -20,6 +20,6 @@ fi
 # Stage, commit, push
 git add .
 git commit -m "$1"
-git push origin main
+git push origin master
 
 echo "Done! Changes pushed."

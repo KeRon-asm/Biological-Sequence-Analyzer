@@ -9,7 +9,7 @@ fi
 # Check if the remote is already set, if not, set it up
 if ! git remote | grep -q "origin"; then
     echo "Setting up remote origin..."
-    git remote add origin https://github.com/KeRon-asm/Protein-Sequence-Analyzer.git
+    git remote add origin https://github.com/KeRon-asm/Biological-Sequence-Analyzer.git
     echo "Remote set successfully"
 fi
 
