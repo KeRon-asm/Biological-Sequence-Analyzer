@@ -98,5 +98,14 @@ const std::unordered_map<std::string, std::string> CODONTABLE = {
 
     };
 
-// Convert DNA to RNA
+// Calculate Protein Stats
+struct ProteinStats {
+    int length;
+    unordered_map<string, int> aminoAcidComposition;
+    double molecularWeight;
+};
+
+ProteinStats computeStats(const string& protein);
+
+	// Convert DNA to RNA
 std::string transcribeDNA(const std::string& sequence);

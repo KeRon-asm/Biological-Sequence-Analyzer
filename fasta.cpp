@@ -59,3 +59,37 @@ string translateRNA(const string& rna){
 	}
 	return composition;
 }
+// Molecular weights of each amino acid in Daltons
+inline const unordered_map<string, double> AA_WEIGHTS = {
+    {"ALA (A)", 89.09},
+    {"ARG (R)", 174.20},
+    {"ASN (N)", 132.12},
+    {"ASP (D)", 133.10},
+    {"CYS (C)", 121.16},
+    {"GLN (Q)", 146.15},
+    {"GLU (E)", 147.13},
+    {"GLY (G)", 75.03},
+    {"HIS (H)", 155.16},
+    {"ILE (I)", 131.17},
+    {"LEU (L)", 131.17},
+    {"LYS (K)", 146.19},
+    {"MET (M)", 149.21},
+    {"PHE (F)", 165.19},
+    {"PRO (P)", 115.13},
+    {"SER (S)", 105.09},
+    {"THR (T)", 119.12},
+    {"TRP (W)", 204.23},
+    {"TYR (Y)", 181.19},
+    {"VAL (V)", 117.15}
+};
+
+ProteinStats computeStats(const string& protein) {
+    ProteinStats stats;
+    
+    // Goal: fill in stats.length
+    // Goal: walk the protein string and count each amino acid
+    //       into stats.aminoAcidComposition
+    // Goal: use AA_WEIGHTS to accumulate stats.molecularWeight
+    
+    return stats;
+}
