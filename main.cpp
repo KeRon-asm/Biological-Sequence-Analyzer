@@ -20,7 +20,7 @@ void printStats(const ProteinStats& stats) {
 }
 
 int main(){
-'''
+/*
 This will be commented out once Im sure how I want to implement the tool:
 Allows adding an argument instead of using the example file provided
 
@@ -33,8 +33,8 @@ int main(int  argc, char* argv[]) {
 
 	string filename = argv[1];
 	vector<FastaRecord> records = parseFasta(filename);
-	
-'''
+
+*/
 
 
 
