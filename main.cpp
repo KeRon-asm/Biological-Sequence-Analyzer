@@ -2,19 +2,42 @@
 #include "fasta.h"
 #include <string>
 #include <fstream>
+#include <mutex>
+#include <thread>
+#include <functional>
+#include <vector>
 using namespace std;
 
 //Struct to hold each record
 void printStats(const ProteinStats& stats) {
 	cout << "Length:            " << stats.length << endl;
 	cout << "Molecular  Weight: " << stats.molecularWeight << " Da" << endl;
-	cout << "Composition:" endl;
+	cout << "Composition:" << endl;
 	for (const auto& pair : stats.aminoAcidComposition) {
+		// v
 		cout << "  " << pair.first << ": " << pair.second << endl;
 	}
 }
 
 int main(){
+'''
+This will be commented out once Im sure how I want to implement the tool:
+Allows adding an argument instead of using the example file provided
+
+int main(int  argc, char* argv[]) {
+	if (argc < 2) {
+		cerr << "Error, try the following output: ./analyzer <filename.fasta>" << endl;
+		return 1;
+	}
+}
+
+	string filename = argv[1];
+	vector<FastaRecord> records = parseFasta(filename);
+	
+'''
+
+
+
 /*
  * This analyzer has five goals.
  * 1- Import and Parse a FASTA File (and the codon table), and extract sequences
@@ -28,6 +51,13 @@ int main(){
 	//Parse File
 	vector<FastaRecord> records = parseFasta("EXAMPLE_1.fasta");
 	
+	vector<thread> threads;
+	for (const auto& rec : records) {
+		threads.emplace_back(analyzeRecord, ref(rec));
+	}
+	for (auto& t : threads) {
+		t.join();
+	}
 
 	// Print parsed records:
 	for (const auto& rec : records) {

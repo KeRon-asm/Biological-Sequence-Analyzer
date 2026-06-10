@@ -1,6 +1,8 @@
 #include "fasta.h"
 #include <fstream>
 #include <iostream>
+#include <mutex>
+#include <thread>
 using namespace std;
 vector<FastaRecord> parseFasta(const string& filename) {
     ifstream iFile(filename);
@@ -95,7 +97,7 @@ ProteinStats computeStats(const string& protein) {
         string aminoAcid = protein.substr(i,7);
 
         // count composition
-        stats.amiinoAcidComposition[aminoAcid]++;
+        stats.aminoAcidComposition[aminoAcid]++;
 
         // Accumulate molecular weight
         if (AA_WEIGHTS.count(aminoAcid)) {
@@ -108,4 +110,9 @@ ProteinStats computeStats(const string& protein) {
     // Goal: use AA_WEIGHTS to accumulate stats.molecularWeight
     
     return stats;
+}
+std::mutex printMutex;
+void analyzeRecord(const FastaRecord& rec) {
+    // full pipeline
+    // lock mutex before printing
 }

@@ -58,9 +58,9 @@ The program includes a full RNA codon table mapping all 64 codons to their corre
 ## Roadmap
 
 - [x] FASTA file parsing
-- [ ] Sequence statistics (length, composition, molecular weight)
+- [x] Sequence statistics (length, composition, molecular weight)
 - [ ] Motif search via Trie
-- [ ] DNA to protein translation
+- [x] DNA to protein translation
 - [ ] Smith-Waterman local alignment
 
 ## Contributing

@@ -14,7 +14,7 @@ struct FastaRecord {
 std::vector<FastaRecord> parseFasta(const std::string& filename);
 
 // Build and return codon table
-const std::unordered_map<std::string, std::string> CODONTABLE = {
+inline const std::unordered_map<std::string, std::string> CODONTABLE = {
     
         {"AUU", "ILE (I)"},
 		{"AUC", "ILE (I)"},
@@ -101,11 +101,13 @@ const std::unordered_map<std::string, std::string> CODONTABLE = {
 // Calculate Protein Stats
 struct ProteinStats {
     int length;
-    unordered_map<string, int> aminoAcidComposition;
+    std::unordered_map<std::string, int> aminoAcidComposition;
     double molecularWeight;
 };
 
-ProteinStats computeStats(const string& protein);
+ProteinStats computeStats(const std::string& protein);
 
 	// Convert DNA to RNA
 std::string transcribeDNA(const std::string& sequence);
+
+void analyzeRecord(const FastaRecord& rec);
