@@ -86,9 +86,25 @@ inline const unordered_map<string, double> AA_WEIGHTS = {
 ProteinStats computeStats(const string& protein) {
     ProteinStats stats;
     
-    // Goal: fill in stats.length
+    stats.length = protein.size();
+
     // Goal: walk the protein string and count each amino acid
     //       into stats.aminoAcidComposition
+
+    for (int i = 0; i+7 <= protein.size(); i+= 7){
+        string aminoAcid = protein.substr(i,7);
+
+        // count composition
+        stats.amiinoAcidComposition[aminoAcid]++;
+
+        // Accumulate molecular weight
+        if (AA_WEIGHTS.count(aminoAcid)) {
+            stats.molecularWeight += AA_WEIGHTS.at(aminoAcid);
+        }
+        // Don't need to account for STOP codon, translateRNA already breaks out of the loop
+    }
+
+    return stats;
     // Goal: use AA_WEIGHTS to accumulate stats.molecularWeight
     
     return stats;

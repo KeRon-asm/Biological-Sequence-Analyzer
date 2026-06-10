@@ -22,4 +22,4 @@ git commit -m "$1"
 # Push to master
 git push origin master
 
-echo "Done! Changes pushed to Protein-Sequence-Analyzer."
+echo "Done! Changes pushed to Biological-Sequence-Analyzer."

@@ -5,6 +5,14 @@
 using namespace std;
 
 //Struct to hold each record
+void printStats(const ProteinStats& stats) {
+	cout << "Length:            " << stats.length << endl;
+	cout << "Molecular  Weight: " << stats.molecularWeight << " Da" << endl;
+	cout << "Composition:" endl;
+	for (const auto& pair : stats.aminoAcidComposition) {
+		cout << "  " << pair.first << ": " << pair.second << endl;
+	}
+}
 
 int main(){
 /*
