@@ -62,27 +62,12 @@ string translateRNA(const string& rna){
 	return composition;
 }
 // Molecular weights of each amino acid in Daltons
-inline const unordered_map<string, double> AA_WEIGHTS = {
-    {"ALA (A)", 89.09},
-    {"ARG (R)", 174.20},
-    {"ASN (N)", 132.12},
-    {"ASP (D)", 133.10},
-    {"CYS (C)", 121.16},
-    {"GLN (Q)", 146.15},
-    {"GLU (E)", 147.13},
-    {"GLY (G)", 75.03},
-    {"HIS (H)", 155.16},
-    {"ILE (I)", 131.17},
-    {"LEU (L)", 131.17},
-    {"LYS (K)", 146.19},
-    {"MET (M)", 149.21},
-    {"PHE (F)", 165.19},
-    {"PRO (P)", 115.13},
-    {"SER (S)", 105.09},
-    {"THR (T)", 119.12},
-    {"TRP (W)", 204.23},
-    {"TYR (Y)", 181.19},
-    {"VAL (V)", 117.15}
+inline const std::unordered_map<std::string, double> AA_WEIGHTS = {
+    {"A", 89.09}, {"R", 174.20}, {"N", 132.12}, {"D", 133.10},
+    {"C", 121.16}, {"Q", 146.15}, {"E", 147.13}, {"G", 75.03},
+    {"H", 155.16}, {"I", 131.17}, {"L", 131.17}, {"K", 146.19},
+    {"M", 149.21}, {"F", 165.19}, {"P", 115.13}, {"S", 105.09},
+    {"T", 119.12}, {"W", 204.23}, {"Y", 181.19}, {"V", 117.15}
 };
 
 ProteinStats computeStats(const string& protein) {
@@ -115,4 +100,19 @@ std::mutex printMutex;
 void analyzeRecord(const FastaRecord& rec) {
     // full pipeline
     // lock mutex before printing
+}
+
+//Smith Waterman Scoring constants
+
+const int MATCH_SCORE = 2;
+const int MISMATCH_SCORE = -1;
+const int GAP_PENALTY = -1;
+
+AlignmentResult smithWaterman(const string& seqA, const string& seqB) {
+    int rows = seqA.size() + 1;
+    int cols = seqB.size() + 1;
+
+    AlignmentResult result;
+
+    return result;
 }
