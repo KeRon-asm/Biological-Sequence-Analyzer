@@ -53,4 +53,4 @@ struct AlignmentResult {
 	int score;
 };
 
-AlignmentResult smithWaterman(const string& seqA, const string& seqB);
+AlignmentResult smithWaterman(const std::string& seqA, const std::string& seqB);

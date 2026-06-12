@@ -78,16 +78,15 @@ ProteinStats computeStats(const string& protein) {
     // Goal: walk the protein string and count each amino acid
     //       into stats.aminoAcidComposition
 
-    for (int i = 0; i+7 <= protein.size(); i+= 7){
-        string aminoAcid = protein.substr(i,7);
+    for (char c : protein) {
+        string aminoAcid(1, c); // convert char to a 1-character string
 
-        // count composition
         stats.aminoAcidComposition[aminoAcid]++;
 
-        // Accumulate molecular weight
         if (AA_WEIGHTS.count(aminoAcid)) {
             stats.molecularWeight += AA_WEIGHTS.at(aminoAcid);
         }
+    }
         // Don't need to account for STOP codon, translateRNA already breaks out of the loop
     }
 
@@ -116,3 +115,4 @@ AlignmentResult smithWaterman(const string& seqA, const string& seqB) {
 
     return result;
 }
+
