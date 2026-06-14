@@ -88,12 +88,9 @@ ProteinStats computeStats(const string& protein) {
         }
     }
         // Don't need to account for STOP codon, translateRNA already breaks out of the loop
-    }
-
-    return stats;
-    // Goal: use AA_WEIGHTS to accumulate stats.molecularWeight
     
     return stats;
+    // Goal: use AA_WEIGHTS to accumulate stats.molecularWeight
 }
 std::mutex printMutex;
 void analyzeRecord(const FastaRecord& rec) {

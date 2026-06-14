@@ -45,11 +45,13 @@ ProteinStats computeStats(const std::string& protein);
 	// Convert DNA to RNA
 std::string transcribeDNA(const std::string& sequence);
 
+std::string translateRNA(const std::string& sequence);
+
 void analyzeRecord(const FastaRecord& rec);
 
 struct AlignmentResult {
-	string alignedA;
-	string alignedB;
+	std::string alignedA;
+	std::string alignedB;
 	int score;
 };
 
