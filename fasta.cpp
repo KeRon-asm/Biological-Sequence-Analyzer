@@ -113,7 +113,16 @@ AlignmentResult smithWaterman(const string& seqA, const string& seqB) {
     return result;
 }
 
-TrieNode* buildTrie(const vector<string>& motifs);
+TrieNode* buildTrie(const vector<string>& motifs){
+	TrieNode* root = new TrieNode();
+	
+	// for each motif in motifs:
+	// start at root
+	// for each character in motif:
+	// ...
+
+	return root
+}
 // Take a list of motifs, insert each one into the trie character by character
 vector<string> searchMotifs(const string& protein, TrieNode* root);
 // traverse through protein string, and at every starting position, follow ther trie as far as possible, recording any motifs
