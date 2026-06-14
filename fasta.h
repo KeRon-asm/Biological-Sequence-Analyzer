@@ -56,3 +56,8 @@ struct AlignmentResult {
 };
 
 AlignmentResult smithWaterman(const std::string& seqA, const std::string& seqB);
+
+struct TrieNode {
+    std::unordered_map<char, TrieNode*> children;
+    bool isEndOfWord = false;
+};
