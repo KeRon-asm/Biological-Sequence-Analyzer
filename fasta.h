@@ -4,7 +4,15 @@
 #include <unordered_map>
 
 // should not use namespace here because it forces that choice on any file including this one
- 
+// Calculate Protein Stats
+struct ProteinStats {
+    int length;
+    std::unordered_map<std::string, int> aminoAcidComposition;
+    double molecularWeight;
+};
+
+
+
 struct FastaRecord {
     std::string header;
     std::string sequence;
@@ -33,21 +41,15 @@ inline const std::unordered_map<std::string, std::string> CODONTABLE = {
     {"CGU", "R"}, {"CGC", "R"}, {"CGA", "R"}, {"CGG", "R"},
 };
 
-// Calculate Protein Stats
-struct ProteinStats {
-    int length;
-    std::unordered_map<std::string, int> aminoAcidComposition;
-    double molecularWeight;
-};
+
 
 ProteinStats computeStats(const std::string& protein);
 
-	// Convert DNA to RNA
 std::string transcribeDNA(const std::string& sequence);
 
 std::string translateRNA(const std::string& sequence);
 
-void analyzeRecord(const FastaRecord& rec);
+void analyzeRecord(const FastaRecord& rec, const std::vector<std::string>& motifs);
 
 struct AlignmentResult {
 	std::string alignedA;

@@ -4,6 +4,16 @@
 #include <mutex>
 #include <thread>
 using namespace std;
+//Struct to hold each record
+void printStats(const ProteinStats& stats) {
+	cout << "Length:            " << stats.length << endl;
+	cout << "Molecular  Weight: " << stats.molecularWeight << " Da" << endl;
+	cout << "Composition:" << endl;
+	for (const auto& pair : stats.aminoAcidComposition) {
+		// v
+		cout << "  " << pair.first << ": " << pair.second << endl;
+	}
+}
 vector<FastaRecord> parseFasta(const string& filename) {
     ifstream iFile(filename);
     if (!iFile.is_open()) {
@@ -92,11 +102,19 @@ ProteinStats computeStats(const string& protein) {
     return stats;
     // Goal: use AA_WEIGHTS to accumulate stats.molecularWeight
 }
+
 std::mutex printMutex;
-void analyzeRecord(const FastaRecord& rec) {
+void analyzeRecord(const FastaRecord& rec, const vector<string>& motifs) {
     // full pipeline
+	string rna_transcription = transcribeDNA(rec.sequence);
+	string protein = translateRNA(rna_transcription);
+	ProteinStats stats = computeStats(protein);
+
     // lock mutex before printing
-}
+	lock_guard<mutex> lock(printMutex); //<- releases lock automatically when leaving scope
+	cout << "Header: " << rec.header << "\n";
+	printStats(stats);
+};
 
 //Smith Waterman Scoring constants
 
@@ -121,7 +139,7 @@ TrieNode* buildTrie(const vector<string>& motifs){
 	// for each character in motif:
 	// ...
 
-	return root
+	return root;
 }
 // Take a list of motifs, insert each one into the trie character by character
 vector<string> searchMotifs(const string& protein, TrieNode* root);

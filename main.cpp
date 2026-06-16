@@ -8,63 +8,28 @@
 #include <vector>
 using namespace std;
 
-//Struct to hold each record
-void printStats(const ProteinStats& stats) {
-	cout << "Length:            " << stats.length << endl;
-	cout << "Molecular  Weight: " << stats.molecularWeight << " Da" << endl;
-	cout << "Composition:" << endl;
-	for (const auto& pair : stats.aminoAcidComposition) {
-		// v
-		cout << "  " << pair.first << ": " << pair.second << endl;
-	}
-}
-
-int main(){
-/*
-This will be commented out once Im sure how I want to implement the tool:
-Allows adding an argument instead of using the example file provided
-
-int main(int  argc, char* argv[]) {
-	if (argc < 2) {
-		cerr << "Error, try the following output: ./analyzer <filename.fasta>" << endl;
-		return 1;
-	}
-}
-
-	string filename = argv[1];
-	vector<FastaRecord> records = parseFasta(filename);
-
-*/
 
 
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        cerr << "Usage: ./analyzer <filename.fasta> [motif1 motif2 ...]" << endl;
+        return 1;
+    }
 
-/*
- * This analyzer has five goals.
- * 1- Import and Parse a FASTA File (and the codon table), and extract sequences
- * 2- Compute basic stats: Length, Amino Acid composition, molecular weight
- * 3- Search for motifs using a trie
- * 4- Translate a DNA sequence to a protein sequence using the codon table
- * 5- Write Smith-Waterman local alignment (This will have to come later, of course)
- 
+    string filename = argv[1];
+    vector<string> motifs;
+    for (int i = 2; i < argc; i++) {
+        motifs.push_back(argv[i]);
+    }
 
-*/
-	//Parse File
-	vector<FastaRecord> records = parseFasta("EXAMPLE_1.fasta");
-	
-	vector<thread> threads;
-	for (const auto& rec : records) {
-		threads.emplace_back(analyzeRecord, ref(rec));
-	}
-	for (auto& t : threads) {
-		t.join();
-	}
+    vector<FastaRecord> records = parseFasta(filename);
 
-	// Print parsed records:
-	for (const auto& rec : records) {
-		cout << "Header:  " << rec.header << endl;
-		cout << "Sequence " << rec.sequence << endl;
-		cout << "Length   " << rec.sequence.size() << "bp" << endl;
-	}
-	return 0;
-	
+    vector<thread> threads;
+    for (const auto& rec : records) {
+        threads.emplace_back(analyzeRecord, ref(rec), motifs);
+    }
+    for (auto& t : threads) {
+        t.join();
+    }
+    return 0;
 }
