@@ -36,3 +36,17 @@ int main() {
     cout << "All tests passed!" << endl;
     return 0;
 }
+void testSearchMotifs() {
+    // Known protein substring from EXAMPLE_1.fasta translation
+    string protein = "QVQLVQSGAE"; // first 10 AA of translated sequence
+    
+    vector<string> motifs = {"VQL", "SGS", "ZZZ"};
+    TrieNode* trie = buildTrie(motifs);
+    vector<string> found = searchMotifs(protein, trie);
+
+    assert(found.size() == 1);
+    assert(found[0] == "VQL");
+    assert(find(found.begin(), found.end(), "ZZZ") == found.end());
+
+    cout << "testSearchMotifs passed" << endl;
+}
