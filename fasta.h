@@ -11,8 +11,7 @@ struct ProteinStats {
     double molecularWeight;
 };
 
-
-
+std::string detectSequenceType(const std::string& sequence);
 struct FastaRecord {
     std::string header;
     std::string sequence;
@@ -49,8 +48,9 @@ std::string transcribeDNA(const std::string& sequence);
 
 std::string translateRNA(const std::string& sequence);
 
-void analyzeRecord(const FastaRecord& rec, const std::vector<std::string>& motifs);
-
+void analyzeRecord(const FastaRecord& rec, 
+                   const std::vector<std::string>& motifs, 
+                   const std::string& querySequence = "");
 struct AlignmentResult {
 	std::string alignedA;
 	std::string alignedB;
@@ -63,3 +63,6 @@ struct TrieNode {
     std::unordered_map<char, TrieNode*> children;
     bool isEndOfWord = false;
 };
+TrieNode* buildTrie(const std::vector<std::string>& motifs);
+std::vector<std::string> searchMotifs(const std::string& protein, TrieNode* root);
+void deleteTrie(TrieNode* root);
