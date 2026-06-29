@@ -1,23 +1,29 @@
-# FASTA Sequence Analyzer
+# FASTA file Sequence Analyzer
 
-A bioinformatics tool written in C++ for parsing, analyzing, and translating biological sequences from FASTA files.
+A command-line bioinformatics tool written in C++ that parses FASTA files and runs a full analysis pipeline on biological sequences. Supports DNA, RNA, and protein input with automatic sequence type detection.
+
+Tested on real sequences from NCBI, including Homo sapiens IGHV (JX432019.1) and tumor protein p53 (NM_000546.6).
 
 ## Features
 
-- **FASTA Parsing** — Reads and extracts sequences and headers from `.fasta` files
-- **Sequence Statistics** — Computes length, amino acid composition, and molecular weight
-- **Motif Search** — Searches for sequence motifs using a Trie data structure
-- **DNA Translation** — Translates DNA sequences to protein sequences using a full codon table
-- **Local Alignment** — Smith-Waterman local alignment algorithm *(in progress)*
+- **FASTA Parsing** — Reads and extracts sequences and headers from `.fasta` files, including multi-record files
+- **Automatic Sequence Detection** — Identifies whether a sequence is DNA, RNA, or protein and routes it through the appropriate pipeline
+- **DNA → Protein Translation** — Transcribes DNA to RNA, then translates to protein using a full 64-codon table with stop codon handling
+- **Sequence Statistics** — Computes length, amino acid composition, and molecular weight in Daltons
+- **Motif Search** — Searches for one or more sequence motifs simultaneously using a Trie data structure
+- **Local Alignment** — Smith-Waterman local alignment against a query sequence
+- **Multithreaded Processing** — Analyzes multiple records concurrently using `std::thread` and `std::mutex`
 
 ## Project Structure
 
 ```
-fasta-analyzer/
-├── main.cpp        # Entry point, coordinates program flow
-├── fasta.h         # Declarations for structs and functions
-├── fasta.cpp       # Implementations for parsing and codon table
-└── EXAMPLE_1.fasta # Sample FASTA file for testing
+Protein-Sequence-Analyzer/
+├── main.cpp            # Entry point, coordinates program flow
+├── fasta.h             # Declarations for all structs and functions
+├── fasta.cpp           # Full pipeline implementation
+├── test.cpp            # Unit tests for all major functions
+├── EXAMPLE_1.fasta     # Sample FASTA file (IGHV, Homo sapiens)
+└── TEST_MULTI.fasta    # Multi-record test file (DNA + protein)
 ```
 
 ## Getting Started
@@ -30,18 +36,45 @@ fasta-analyzer/
 ### Build
 
 ```bash
-g++ -std=c++17 -o analyzer main.cpp fasta.cpp
+g++ -std=c++17 -pthread -o analyzer main.cpp fasta.cpp
 ```
 
 ### Run
 
 ```bash
-./analyzer
+# Basic analysis
+./analyzer <filename.fasta>
+
+# With Smith-Waterman alignment against a query sequence
+./analyzer <filename.fasta> <query_sequence>
+
+# With custom motifs
+./analyzer <filename.fasta> <query_sequence> <motif1> <motif2> ...
 ```
 
-### Input Format
+### Examples
 
-The program expects a standard FASTA file:
+```bash
+# Analyze a FASTA file
+./analyzer EXAMPLE_1.fasta
+
+# Align all records against the IGHV N-terminal motif
+./analyzer EXAMPLE_1.fasta QVQL
+
+# Search for custom motifs and align against p53 N-terminal
+./analyzer TEST_MULTI.fasta MEEPQ MF KL AG
+```
+
+### Build and Run Tests
+
+```bash
+g++ -std=c++17 -pthread -o test test.cpp fasta.cpp
+./test
+```
+
+## Input Format
+
+Standard FASTA format — one or more records, each with a header line starting with `>` followed by sequence data:
 
 ```
 >SequenceID Description
@@ -49,19 +82,37 @@ ATGCGATCGATCGATCG
 ATCGATCGATCG
 ```
 
-Each record begins with a `>` header line followed by one or more lines of sequence data.
+Multi-record files are supported. Each record is analyzed concurrently on its own thread.
 
-## Codon Table
+## Pipeline
 
-The program includes a full RNA codon table mapping all 64 codons to their corresponding amino acids, including the three stop codons (`UAA`, `UAG`, `UGA`).
+```
+Input FASTA
+    ↓
+detectSequenceType()     — DNA / RNA / PROTEIN
+    ↓
+transcribeDNA()          — DNA only: T → U
+    ↓
+translateRNA()           — DNA/RNA: codons → single-letter amino acids
+    ↓
+computeStats()           — length, composition, molecular weight
+    ↓
+searchMotifs()           — trie-based motif search
+    ↓
+smithWaterman()          — local alignment against query (optional)
+```
 
-## Roadmap
+## Goals Completed
 
 - [x] FASTA file parsing
 - [x] Sequence statistics (length, composition, molecular weight)
-- [ ] Motif search via Trie
+- [x] Motif search via Trie
 - [x] DNA to protein translation
-- [ ] Smith-Waterman local alignment
+- [x] Smith-Waterman local alignment
+- [x] Automatic sequence type detection (DNA / RNA / Protein)
+- [x] Multithreaded record analysis
+- [x] Command-line interface with optional query and motifs
+- [x] Unit tests
 
 ## Contributing
 
