@@ -4,6 +4,8 @@ A command-line bioinformatics tool written in C++ that parses FASTA files and ru
 
 Tested on real sequences from NCBI, including Homo sapiens IGHV (JX432019.1) and tumor protein p53 (NM_000546.6).
 
+![Demo](./demo.gif)
+
 ## Features
 
 - **FASTA Parsing** — Reads and extracts sequences and headers from `.fasta` files, including multi-record files
